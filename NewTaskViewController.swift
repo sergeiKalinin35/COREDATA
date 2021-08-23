@@ -43,6 +43,25 @@ class NewTaskViewController: UIViewController {
     }()
     
     
+    private lazy var cancelButton: UIButton = {
+        let button = UIButton()
+        
+        button.backgroundColor = #colorLiteral(red: 0.9365946651, green: 0.1841237247, blue: 0.1575583518, alpha: 1)//UIColor(
+           // red: 21/255,
+         //   green: 101/255,
+         //   blue: 192/255,
+         //   alpha: 1
+      //  ) // цвет кнопки
+        
+        button.setTitle("Cancel", for: .normal)   // заголовок кнопки
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)//шрифт
+        button.setTitleColor(.white, for: .normal)// цвет заголовка
+        button.layer.cornerRadius = 5                //скруглим углы
+        // действие при нажатие на эту кнопку
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        
+        return button
+    }()
     
     
     
@@ -67,6 +86,8 @@ class NewTaskViewController: UIViewController {
         
         view.addSubview(taskTextField)// выводим TextField на вью
         view.addSubview(saveButton)
+        view.addSubview(cancelButton)
+        
     }
     
     // отключаем автоматическую расстановку
@@ -95,7 +116,7 @@ class NewTaskViewController: UIViewController {
             // отступы
             NSLayoutConstraint.activate([
                // вверх top
-                saveButton.topAnchor.constraint(equalTo: taskTextField.topAnchor, constant: 80),
+                saveButton.topAnchor.constraint(equalTo: taskTextField.bottomAnchor, constant: 30),
                 // правая сторона trailing
                 saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
                 // левая сторона leading
@@ -103,6 +124,28 @@ class NewTaskViewController: UIViewController {
             
             ])
             
+        // отключаем параметры нашего текстового поля
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        // отступы
+        NSLayoutConstraint.activate([
+           // вверх top
+            cancelButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 30),
+            // правая сторона trailing
+            cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            // левая сторона leading
+            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40)
+        
+        ])
+        
+        
+        
+        
+        
+        
+        
+        
+        
         }
         
         
@@ -110,6 +153,13 @@ class NewTaskViewController: UIViewController {
         
         dismiss(animated: true)
     }
+    
+    @objc func cancel() {
+        
+        dismiss(animated: true)
+    }
+    
+    
     
 }
 
