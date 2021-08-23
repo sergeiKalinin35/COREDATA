@@ -22,6 +22,11 @@ class NewTaskViewController: UIViewController {
 }()
     
     
+    let delete:String = ""
+    let fradd: String = ""
+    
+    
+    
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         
@@ -162,6 +167,24 @@ class NewTaskViewController: UIViewController {
     
     
 }
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 
 
 
