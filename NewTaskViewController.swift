@@ -6,7 +6,24 @@
 //
 
 import UIKit
+
+import CoreData
+
+
 class NewTaskViewController: UIViewController {
+    
+private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // lazy это отложенная инициализация /// чтобы не нагружать систему
     private lazy var taskTextField: UITextField = {
         let textField = UITextField()
@@ -20,13 +37,6 @@ class NewTaskViewController: UIViewController {
         return textField
         
 }()
-    
-    
-    let delete:String = ""
-    let fradd: String = ""
-    
-    
-    
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         
@@ -155,8 +165,27 @@ class NewTaskViewController: UIViewController {
         
         
     @objc func save() {
+        // сохраняем данные в context  и отоброжаем потом все в первом вьюКонтроллере
+        guard let entityDescription = NSEntityDescription.entity(forEnityName: "Task", in: context) else { return }
+        guard let task = NSManagedObject(entity: entityDescription, insertInfo: context) as? Task  else { return }
         
+        task.name = taskTextField.text
+        if context.hasChanges {
+            
+            do {
+                
+                
+            } catch let error {
+                
+                 try context.save()
+                
+                
+                print(error)
+            }
+        }
+       
         dismiss(animated: true)
+        
     }
     
     @objc func cancel() {

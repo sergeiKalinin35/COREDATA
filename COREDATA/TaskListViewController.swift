@@ -6,8 +6,23 @@
 //
 
 import UIKit
+import CoreData
+
 
 class TaskListViewController: UITableViewController {
+    
+    
+    private let cellID = "cell"
+    private var tasks: [Task] = []
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +36,7 @@ class TaskListViewController: UITableViewController {
     
     private func setupNavigationBar() {
         title = "Task List" // Заголовок
-        navigationController?.navigationBar.prefersLargeTitles = true //Большой бра
+        navigationController?.navigationBar.prefersLargeTitles = true //Большой бар
         
         
         
@@ -71,11 +86,9 @@ class TaskListViewController: UITableViewController {
         
         // при переходи зависает на пол пути решение///красив второй вью в белый цвет. Сработало но не закрывается полностью
         
-        
-        
-        
-}
+    }
     
 
 }
 
+//MARK: - Table view data source 
