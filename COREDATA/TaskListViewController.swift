@@ -11,6 +11,8 @@ import CoreData
 
 class TaskListViewController: UITableViewController {
     
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     
     private let cellID = "cell"
     private var tasks: [Task] = []
@@ -27,6 +29,8 @@ class TaskListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        setupNavigationBar()
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
     }
     
@@ -78,7 +82,7 @@ class TaskListViewController: UITableViewController {
         }
         
     
-    @objc func addNewTask() { // реализуем этот метод программно переход делаем новый вью контроллер
+    @objc private func addNewTask() { // реализуем этот метод программно переход делаем новый вью контроллер
         
         let newTaskVC = NewTaskViewController()
         // делаем переход теперь как подписались к вью новому
@@ -88,7 +92,54 @@ class TaskListViewController: UITableViewController {
         
     }
     
+    
+    // запрос данных c  типом task(NSManagetObject)
+    private func fetchData() {
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
 
-//MARK: - Table view data source 
+//MARK: - Table view data source
+
+extension TaskListViewController {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        tasks.count
+    }
+    
+ 
+    
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        // отображаем данные с context
+        let task = tasks[indexPath.row]
+        // новый способ работы с ячейкой
+        var сontent = cell.defaultContentConfiguration()// структура
+        content.text = task.name
+        cell.contentConfiguration = content
+        
+        
+        
+        
+        
+    return cell
+    }
+    
+    
+    
+    
+}
