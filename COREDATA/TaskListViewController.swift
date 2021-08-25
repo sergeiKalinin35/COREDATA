@@ -107,24 +107,11 @@ class TaskListViewController: UITableViewController {
     @objc private func addNewTask() {
         
         
+        showAlert(withTitle: " Add New Task", andMessage: "What do you want to do?")
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // реализуем этот метод программно переход делаем новый вью контроллер
+    // реализуем этот метод программно переход делаем новый вью контроллер
         
       //  let newTaskVC = NewTaskViewController()
         
@@ -189,9 +176,6 @@ class TaskListViewController: UITableViewController {
         // отобразить появление строки в интерфейсе  для этого нужно знать индекс по которому мы хотим отобразить эти данные
         let  cellIndex = IndexPath(row: task.count - 1, section: 0)
         tavleView.insertRows(at: [cellIndex], with: .automatic)
-        
-        
-        
         
         
         // отображение анимированной строчки
