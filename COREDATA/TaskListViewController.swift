@@ -5,6 +5,13 @@
 //  Created by Sergey on 22.08.2021.
 //
 
+
+
+
+
+/// мы просто сохраняем данные и восстанавливаем /// передача данных не происходит между вью
+// второе вью избыточное  2 кнопки и текст филд ( переносим все это в алерт контроллер) добавляем текстовое поле в алерт контроллер /
+
 import UIKit
 import CoreData
 
@@ -33,8 +40,23 @@ class TaskListViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
     }
+    // вью исчезла модальный переход не скрывает полностью экран 
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        print("viewDisappear")
+    }
     
     
+    
+    
+    //данные обновляются при открывания экрана много раз // Didload загружает данные один раз на вью
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("viewWillAppear")
+        fetchData()
+    }
 
     // настройка навигатион бара
     
@@ -82,11 +104,33 @@ class TaskListViewController: UITableViewController {
         }
         
     
-    @objc private func addNewTask() { // реализуем этот метод программно переход делаем новый вью контроллер
+    @objc private func addNewTask() {
         
-        let newTaskVC = NewTaskViewController()
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // реализуем этот метод программно переход делаем новый вью контроллер
+        
+      //  let newTaskVC = NewTaskViewController()
+        
+    //    newTaskVC.modalPresentationStyle = .fullScreen // открываем полностью второй экран
         // делаем переход теперь как подписались к вью новому
-        present(newTaskVC, animated: true)
+    //    present(newTaskVC, animated: true)
         
         // при переходи зависает на пол пути решение///красив второй вью в белый цвет. Сработало но не закрывается полностью
         
@@ -97,27 +141,89 @@ class TaskListViewController: UITableViewController {
     private func fetchData() {
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
         
+        
+        do {
+           
+           tasks = try context.fetch(fetchRequest)
+            
+        } catch let error {
+            
+            print(error)
+            
+        }
+       
+    }
+    
+    // создаем алерт контроллер  (окно)
+    private func showAlert(withTitle title: String, andMessage message: String) {
+        
+        let alert = UIAlertController(title: title, message: message , preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "SAVE", style: .default) { _ in
+            guard let task = alert.textFields?.first?.text, !task.isEmpty  else { return }
+            
+            self.save (task)
+            
+        }
+        
+        let cancelAction = UIAlertAction(title: "CANCEL", style: .destructive)  //  destructive кнопка будет красная
+            // добавляем текстовое поле
+        
+        alert.addTextField()
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+        
+        
+        }
+    
+    private func save(_ taskName: String) {
+        
+        guard let entityDescription = NSEntityDescription.entity(forEnityName: "Task", in: context) else { return }
+        guard let task = NSManagedObject(entity: entityDescription, insertInfo: context) as? Task  else { return }
+        
+        task.name = taskName
+        tasks.append(task)
+        
+        // отобразить появление строки в интерфейсе  для этого нужно знать индекс по которому мы хотим отобразить эти данные
+        let  cellIndex = IndexPath(row: task.count - 1, section: 0)
+        tavleView.insertRows(at: [cellIndex], with: .automatic)
+        
+        
+        
+        
+        
+        // отображение анимированной строчки
+        
+        
+        if context.hasChanges {
+            
+            do {
+                
+                
+            } catch let error {
+                
+                 try context.save()
+                
+                
+                print(error)
+            }
+        
     }
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-
 }
 
 //MARK: - Table view data source
 
 extension TaskListViewController {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tasks.count
+        
+        
     }
     
  
